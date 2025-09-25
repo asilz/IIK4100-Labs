@@ -65,6 +65,12 @@ def mycorr(x,y):
     C = np.divide(C, repmat(ysq, xc, 1))
     return C
 
+def hamming_weight(byte):
+    result = 0
+    for i in range(8):
+        result += (byte >> i) & 1
+    return result
+
 
 #TODO:
 #Select which files to open. Filenames defined at the top.
@@ -84,12 +90,13 @@ for BYTE in range(16):
         # then add second dimension because mycorr requires 2D matrix: 
         # add ".reshape(-1,1)" at the end of your output
         # YOUR CODE:
-        
+        v = Sbox[plaintexts[:,BYTE] ^ k]
+        h = hamming_weight(v)
 
         # Use the premade mycorr() Pearson's correlation coefficient calculation function 
         # Inputs are the provided traces and the previously computed power values matrix
         # YOUR CODE:
-        corr = 
+        corr = mycorr(h.reshape(-1,1), traces)
         
 
         # Keeping track of the highest correlation value and related t and k
